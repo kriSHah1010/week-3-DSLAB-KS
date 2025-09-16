@@ -160,3 +160,4 @@ print("\n")
 
 print("--- Task 4: Top 5 Most Common Professions ---")
 print(task_4())
+print("\n")
