@@ -60,23 +60,16 @@ def task_1():
     # Count missing values per column
     missing_counts = df_bellevue.isnull().sum()
     
-    # Sort columns by missing values (ascending)
-    sorted_columns = missing_counts.sort_values(ascending=True).index.tolist()
+    # Create a DataFrame with columns and their missing counts
+    missing_df = pd.DataFrame({
+        'column': missing_counts.index,
+        'missing_count': missing_counts.values
+    })
     
-    # Check if 'first_name' and 'gender' have the same missing count
-    # If they do, ensure 'first_name' comes before 'gender'
-    if 'first_name' in sorted_columns and 'gender' in sorted_columns:
-        first_name_idx = sorted_columns.index('first_name')
-        gender_idx = sorted_columns.index('gender')
-        
-        # If they have the same missing count and gender comes first
-        if (missing_counts['first_name'] == missing_counts['gender'] and 
-            gender_idx < first_name_idx):
-            # Swap their positions
-            sorted_columns[gender_idx], sorted_columns[first_name_idx] = \
-                sorted_columns[first_name_idx], sorted_columns[gender_idx]
+    # Sort by missing_count ascending, and for ties, sort alphabetically by column name
+    missing_df = missing_df.sort_values(by=['missing_count', 'column'], ascending=[True, True])
     
-    return sorted_columns
+    return missing_df['column'].tolist()
 
 def task_2():
     """
